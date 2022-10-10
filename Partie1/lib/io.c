@@ -1,22 +1,32 @@
 #include"io.h"
 #include<stdarg.h>
 
+extern void print(int,char*, int);
+
 
 void printChar(char c)
 {
-	//CODE TODO1
+	print(1, &c, 1);
 }
 
 
 void printString(char* str)
 {
-	//CODE TODO2
+	for(char c = *str; c != '\0'; c = *++str )
+	{
+		printChar(c);
+	}
+
 }
 
 
 void printDigit(int i)
 {
-	//CODE TODO3
+	if(i >= 0 && i <= 9)
+	{
+		printChar(i+48);
+	}
+	
 }
 
 
@@ -31,22 +41,3 @@ void newPrintf(char* str, ...)
 	//CODE TODO5
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

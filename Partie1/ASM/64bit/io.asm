@@ -1,5 +1,5 @@
 
-
+section .text
 global print
 print:
 	mov rax, 1		;;sys_write == 1
