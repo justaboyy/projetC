@@ -6,7 +6,7 @@ extern void print(int,char*, int);
 
 void printChar(char c)
 {
-	print(1, &c, 1);
+	print(1, &c, 1); 
 }
 
 
@@ -30,9 +30,36 @@ void printDigit(int i)
 }
 
 
-void printInteger(int i)
+void printInteger(int i) //A ameliorer si possible
 {
-	//CODE TODO4
+	int n = i; 
+
+
+	//Calculate the length of the Integer
+	int lengthOfInteger = 0;
+	while(n > 0){
+		n = n/10;
+		lengthOfInteger++;
+	}
+	n = i;
+
+	//Create an array that has the length as size
+	int numbers[lengthOfInteger]; 
+	
+	//Fill the array with the numbers
+	//Starts filling from the end of the array, to put the number at the right order
+	for (int j = 0; j < lengthOfInteger; j++)
+	{
+		numbers[(lengthOfInteger-1) - j] = n%10;
+		n = n/10;
+	}
+
+	//Loop the array to print the numbers
+	for (int j = 0; j < lengthOfInteger ; j++)
+	{
+		printDigit(numbers[j]);
+	}
+	
 }
 
 
