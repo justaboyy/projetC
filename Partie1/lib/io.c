@@ -62,9 +62,33 @@ void printInteger(int i) //A ameliorer si possible
 	
 }
 
-
 void newPrintf(char* str, ...)
 {
-	//CODE TODO5
-	
+	va_list args;
+	va_start(args, str);
+	for(char c = *str; c != '\0'; c = *++str)
+	{
+		if(c == '%')
+		{
+			char d = c;
+			d = *++str;
+			if(d == 'd')
+			{
+				int value = va_arg(args, int); 
+				printInteger(value);	
+				c = *++str;
+			} else if(d = 'c') {
+				char value = va_arg(args,int);
+				printChar(value);
+				c = *++str;
+			} else if(d = 's') {
+				char * value = va_arg(args, char*);
+				printString(value);
+				c = *++str;
+			}
+		} else {	
+			printChar(c);
+		} 
+	}
+	va_end(args);
 }
