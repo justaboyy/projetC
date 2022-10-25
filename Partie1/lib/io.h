@@ -20,9 +20,7 @@ void printInteger(int i);
 void newPrintf(char* str, ...);
 
 //TODO6
-
-	
-
-
+//void printG(void* var);
+#define printG(var) _Generic((var), int : printInteger(var), char : printChar(var), char* : printString(var))
 
 #endif
