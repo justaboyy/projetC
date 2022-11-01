@@ -14,7 +14,6 @@ int main()
 	print(1,&c,1);
 	EOL;
 	#endif
-	
 		
 	#ifdef TODO1
 	printChar('C');
@@ -34,7 +33,7 @@ int main()
 	}
 	EOL;
 	#endif	
-	
+
 	
 	#ifdef TODO4
 	printInteger(123456);

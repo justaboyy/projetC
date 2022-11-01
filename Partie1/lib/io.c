@@ -92,3 +92,24 @@ void newPrintf(char* str, ...)
     va_end(args);
 
 }
+
+//FURTHER 7
+void printDouble()
+{
+
+}
+
+void printFloat()
+{
+
+}
+
+void printLong()
+{
+
+}
+
+void printShort()
+{
+	
+}
