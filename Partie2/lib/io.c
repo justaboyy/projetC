@@ -21,14 +21,14 @@ void calculate()
 int verifGauche(char* membreG)//pas fonctionnelle
 {
 	char *end;
-	double num = strtod(membreG &end);		
+	double num = strtod(membreG, &end);		
 	if( end!=NULL && *end=='\0' )
 	{
-		printf("%-9s : %g\n",membreG,num);
+		printf("%s : %g\n",membreG,num);
 	}
 	else
 	{
-		printf("%-9s : Erreur\n",membreG);
+		printf("%s : Erreur membre de gauche\n",membreG);
 	}
 	return 0;
 		
@@ -37,17 +37,22 @@ int verifGauche(char* membreG)//pas fonctionnelle
 int verifDroite(char* membreD)// pas fonctionnelle
 {
 	char *end;
-	double num = strtod(membreG &end);		
+	double num = strtod(membreD, &end);		
 	if( end!=NULL && *end=='\0' )
 	{
-		printf("%-9s : %g\n",membreG,num);
+		printf("%s : %g\n",membreD,num);
 	}
 	else
 	{
-		printf("%-9s : Erreur\n",membreG);
+		printf("%s : Erreur membre de droite\n",membreD);
 	}
 	return 0;
 		
+}
+
+void decoupeString(char* string)
+{
+	
 }
 
 int isOperation(char* operation)
@@ -84,8 +89,10 @@ int isOperation(char* operation)
     if(grlight == 1)
     {
     	//fonction qui découpe la saisi user pour avoir le 'avant operateur' et 'apres operateur'
-    	verifGauche('avant operateur');
-    	verifDroite('apres operateur');
+    	
+    	//appel des fonctions de verifications des membres
+    	verifGauche(char* membreG);
+    	verifDroite(char* membreD);
 }
 
 
