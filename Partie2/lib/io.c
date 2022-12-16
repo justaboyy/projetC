@@ -1,283 +1,141 @@
 #include "io.h"
-
 #include <stdio.h>
-
-#include <string.h>
-
 #include <stdlib.h>
 
-
-
-
-
+//Flush method, clear the console
 void flush()
-
 {
-
-	system("clear"); // appel la commande clear	
-
+	system("clear");
 }
 
 
-
-void calculate(char* operation)
+//calculate and show the result to the operation if it's valid. Otherwise, shows the error message
+void calculate(char operation[])
 
 {
+   	int verifOperator = 0; //boolean to verify if there is a valid operator in the operation
+   	int indexOpe = 1;  //index of the operator. Starts at 1 so you can put a + or - symbol before your first operand
+   	char operator; //the operator
+    char operators[5] = {'+','-','*','/','%'}; //list of available operator     	    	
 
-    int valid = isOperation(operation);
-
-    if(isOperation >= 0){
-
-        printf("calculate\n");
-
+    //loop to search for the operator and it's value
+	while(verifOperator == 0 && indexOpe < sizeof(operation))
+    {
+            //for each entry in the input, verify for the 5 operators
+    		for(int i=0; i<5; i++)  
+    		{
+            		if(operators[i] == operation[indexOpe]) 
+            		{	                     
+            			verifOperator = 1;    
+            			operator = operators[i];
+            		}
+        	}	
+        	if (verifOperator == 0)
+	        {	
+            		indexOpe += 1;
+	        }	
+					
+    }
+ 
+    //error if there is no operator
+    if(verifOperator == 0) {
+    	printf("Error: No operator in the operation\n");
     } else {
-
-        printf("error");
-
-    }
-
-}
-
-
-
-
-
-
-
-
-
-int verif(char* membre) //TODO return 0 = non valide ; return 1 = valide ; sortie texte dans isOperation
-
-{                           //Valide = (1 seul char de type '.' ou ',' && un seul char de type '-' ou '+' && )
-
-    char *end;
-
-    double num = strtod(membre, &end);        
-
-    if( end!=NULL && *end=='\0' )
-
-    {
-
-        printf("%s : %g\n",membre,num);
-
-        return 1;
-
-    }
-
-    else
-
-    {
-
-        printf("%s : Error member\n",membre);
-
-        return 0;
-
-    }  
-
-}
-
-
-
-
-
-
-
-char* simplifyAndFill(char* operation, int start, int end)
-
-{
-
-    int countRealSizeMember = 0;
-
-    int firstIsDot = 0; 
-
-    int noMoreSpaces = 0;
-
-
-
-    //Count the size of the returned array
-
-    for (int i = 0; i < end-start; i++)
-
-    {
-
-        if(operation[i] == ' ' ||operation[i] == '+' ){
-
-            
-
-        } else {
-
-            if((operation[i] == '.' || operation[i] == ',') && noMoreSpaces == 0 ) //Test and resolve the case for float that start with . or ,
-
-            {
-
-                firstIsDot = 1;
-
-                countRealSizeMember++;
-
-            }
-
-            if(noMoreSpaces == 0){
-
-                noMoreSpaces = 1;
-
-            }
-
-            countRealSizeMember++;
-
-        }
-
-    }
-
-
-
-    //Create and fill the returned array
-
-    char ret[countRealSizeMember];
-
-    int j = 0;
-
-    for (int i = 0; i < countRealSizeMember; i++)
-
-    {
-
-        if(operation[i] == ' ' || operation[i] == '+'){
-
-        } else {
-
-            if(firstIsDot == 1){ //Case for float that start with . or ,
-
-                ret[0] = '0';
-
-                ret[1] = '.';
-
-                i++;
-
-                firstIsDot = 0;
-
-            } else {
-
-                ret[i] = operation[i];
-
-            }
-
-        }
-
-    }
-
-    return &ret;
-
-}
-
-
-
-//returns the index of the operator if valid, -1 otherwise
-
-int isOperation(char* operation)
-
-{
-
-    int verifOperator = 0;
-
-    int indexOpe = 0; 
-
-    char operator;
-
-    char operators[5] = {'+','-','*','/'};
-
-
-
-    //détecte le premier opérateur
-
-    while(verifOperator == 0 && indexOpe < sizeOf(operation))
-
-    {
-
-    	int i;
-
-    	//verifie pour +, -, *, /, %
-
-        // si oui, verifoperator = 1;
-
-        //placeDeloperator = valeur
-
-    	for(i=0; i<5; i++)  //TODO ajouter une variable compteur de -/+, erreur si supérieur à 3, pour pouvoir écrire -4 + -5 ou encore +5 + 9 par expl  
-
-    	{
-
-        	//compare les valeurs du tableau avec les caratères de 'operation' string passée
-
-        	//en param
-
-            if(operators[i] == operation[indexOpe]) 
-
-            {
-
-            	printf("\n l'opérateur est ", operators[i]);                        
-
-            	verifOperator = 1;    
-
-            	operator = operators[i];
-
-            }
-
-        }
-
-        if (verifOperator == 0)
-
-        {
-
-            indexOpe += 1;
-
-        }
-
-    }
-
-
-
-	//si verifoperator = 1
-
-    //sous-fonction pour vérifier à gauche
-
-    //meme fonction pour verifier à droite
-
-    if(verifOperator == 1)
-
-    {        
-
+   		
+    	char tabL[indexOpe]; //left operand as a string
+		char tabR[strlen(operation)-indexOpe]; //right operand as a string
+
+        //fill the left operator		
+		for(int i=0;i<indexOpe;i++)
+		{
+			tabL[i]=operation[i];
+		}	
+
+        //fill the right operand
+        for(int i=0;i< strlen(operation)-indexOpe;i++)
+		{
+			tabR[i]=operation[i+indexOpe+1];
+		}
+					
+		
+		double result; //result of the operation
+
+		if(operator == '%'){
+			int left_member = atoi(tabL); //from string to int for left
+			int right_member = atoi(tabR); //same for right
+			result = left_member % right_member; //calculate
+		} else {
+			
+
+			double left_member;
+			double right_member;
+
+            //makes it possible to use the pi and e values in the calculator
+			if(tabL[0] == 'p' && tabL[1]=='i'){
+				left_member = 3.141592;
+			} else if (tabL[0] == '-' && tabL[1] == 'p' && tabL[2]=='i'){
+				left_member = -3.141592;
+			} else if(tabL[0]=='e'){
+				left_member = 2.718281;
+			} else if(tabL[0] == '-' && tabL[1]=='e'){
+				left_member = -2.718281;
+			} else {
+				left_member = atof(tabL); //from string to double for left
+			}
+			
+			if(tabR[0] == 'p' && tabR[1]=='i'){
+				right_member = 3.141592;
+			} else if (tabR[0] == '-' && tabR[1] == 'p' && tabR[2]=='i'){
+				right_member = -3.141592;
+			} else if(tabR[0]=='e'){
+				right_member = 2.718281;
+			} else if(tabR[0] == '-' && tabL[1]=='e'){
+				right_member = -2.718281;
+			} else {
+				right_member = atof(tabR); //from string to double for right
+			}
+			
+			switch(operator) //calculate depending of the operator
+			{
+				case '+':	
+					result = left_member + right_member;
+					break;
+					
+				case '-':
+					result = left_member - right_member;
+					break;
+					
+				case '*':
+					result = left_member * right_member;
+					break;
+					
+				case '/':
+					if(right_member == 0){
+						printf("Error : cannot divide by 0\n");
+						return;
+					}else{
+						result = left_member / right_member;
+					}
+					break;
+			}
+		}
+		
         
-
-
-
-        //Call of the verification of members
-
-        int validMember = verif(memberL);
-
-        if(validMember == 1){
-
-            validMember = verif(memberR);
-
-        }
-
-        if(validMember == 1){
-
-            return indexOpe;
-
-        } else {
-
-            printf("Error : Operands not valid");
-
-            return -1;
-
-        }
-
-
-
-	} else {
-
-		printf("Error : Operator not found in expression");
-
-        return -1;
-
+		int i = result; //round value of the result
+				
+		//if round value = value, then the result is a int
+		if(i == result){
+			printf("%i\n",i);
+		} else { //otherwise, it is a double
+			printf("%f\n",result);
+		}
+	
 	}
+    
 
 }
+
+
+
+
+
